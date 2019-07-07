@@ -1,0 +1,47 @@
+---
+title: 'Moment of Truth: Does Central Limit Theorem Work on an Exponential Distribution? '
+author: "Ali  Pourkhesalian"
+date: "7 July 2019"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+This reports investigates the exponential distribution in R and compares it with the Central Limit Theorem (CLT).
+
+##Simulations
+The exponential distribution is simulated in R with rexp(n, lambda), where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also 1/lambda. In this report, lambda is set to 0.2 for all of the simulations. The CLT is tested on the distribution of averages of 40 exponentials for a thousand simulations.
+
+```{r simulations}
+lambda<-.2;n<-40;mns = NULL;for (i in 1 : 1000) mns = c(mns, mean(rexp(n,lambda)))
+h<-hist(mns, breaks=20,xlab="Means", main="Means of Exponential Distribution VS CLT") 
+xfit<-seq(min(mns),max(mns),length=80) 
+yfit<-dnorm(xfit,mean=mean(mns),sd=sd(mns)) 
+yfit <- yfit*diff(h$mids[1:2])*length(mns) 
+lines(xfit, yfit, col="blue", lwd=2)
+yfitt<-dnorm(xfit,mean=mean(1/lambda),sd=(1/lambda)/sqrt(n)) 
+yfitt <- yfitt*diff(h$mids[1:2])*length(mns) 
+lines(xfit, yfitt, col="red", lwd=2)
+abline(v=mean(mns), col='blue', lwd=2, lty=2);abline(v=1/lambda, col='red', lwd=2, lty=2)
+legend(x= 'topright', legend= c("Sample distribution", "Sample mean", "Theoritical distribution", "Theoritical mean"), col = c('blue','blue','red','red'),text.col = c('blue','blue','red','red'), lty = c(1,2,1,2),merge = TRUE)
+
+```
+
+## Sample Mean VS Theoretical Mean
+The theoretical mean of the distribution is `r 1/lambda`, with a standard deviation of `r round((1/lambda)/sqrt(n),2) `, where the sample mean and standard deviation are calculated as being `r mean(mns) `, and `r sd(mns) ` respectively matching with the theoritical values very closely.  
+
+## Sample Variance VS Theoretical Variance
+As it can be seen in the above plot, the distribution of means of an exponential distribution (the histogram) matches almost perfectly with a theoritical normal distribution (the red line) and the sample normal distribution (blue line). The variance of the distribution is calculated to be `r round(var(mns),4)` comparing to the theoritical value of `r round(((1/lambda)/sqrt(n))^2,4)`, they are quite close.  
+
+## Distribution
+The above plot clearly shows that the sample means of an exponential distribution is distributed normally as expected according to the Central Limit Theorem (CLT). Hence, it all boils up to: **CLT works!**
+
+## Appendix
+This document was created by R Markdown. The R Markdown code to generate the document can be found [here](https://github.com/pourkhesalian/statistical-inference-course-project).
