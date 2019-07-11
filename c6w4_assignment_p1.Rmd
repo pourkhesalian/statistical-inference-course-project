@@ -3,10 +3,10 @@ title: 'Moment of Truth: Does Central Limit Theorem Work on an Exponential Distr
 author: "Ali  Pourkhesalian"
 date: "7 July 2019"
 output:
-  pdf_document: default
+  word_document: default
   html_document:
     df_print: paged
-  word_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
