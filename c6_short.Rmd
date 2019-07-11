@@ -76,5 +76,5 @@ Based on the statistical inference analysis carried out on the "ToothGrowth" dat
 2. While at 2 mgr/day dosage there is no difference beween supplement method, at 0.5 and 1 mgr/day OJ method is more effectual.
 
 ### Appendix
-The Rmd file to generate this report can be found  [here](https://github.com/pourkhesalian/statistical-inference-course-project).
+The Rmd file to generate this report in word docx format can be found  [here](https://github.com/pourkhesalian/statistical-inference-course-project).
 
