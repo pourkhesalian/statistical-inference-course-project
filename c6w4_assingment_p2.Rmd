@@ -4,9 +4,6 @@ author: "Ali  Pourkhesalian"
 date: "8 July 2019"
 output:
   pdf_document: default
-  html_document:
-    df_print: paged
-  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +25,7 @@ data("ToothGrowth")
 ### Basic Exploratory Analysis
 The dataset has `r ncol(ToothGrowth)` columns/variables and `r nrow(ToothGrowth)` rows/observations. Below is brief a summary of the dataset:
 ```{r summary, echo=FALSE}
-summary(ToothGrowth)[c(1,4,6)]
+summary(ToothGrowth)
 ```
 So, the summary shows that the average tooth growth in the test subjects was `r round(mean(ToothGrowth$len),2)`, the minimum growth was `r min(ToothGrowth$len)` and the maximum was `r max(ToothGrowth$len)`. Now, let's explore the data using a graph. It can be seen from the plot that as dosage increases, the tooth length also increases. Also, it seems that the growth rate for lower doses is more significant. To check if the observed differences are statistically significant, we have to perform a statistical inference analysis. 
 
@@ -41,10 +38,14 @@ library(ggplot2)
 ggplot(ToothGrowth, aes(x= as.factor(dose), y=len))+
   geom_boxplot(aes(color=supp))+
   xlab('Dosage (mgr/day)')+ ylab('Tooth length (unit)')+
-  ggtitle('Tooth growth VS vitamin C dose by supplement')+
+ # ggtitle('Tooth growth VS vitamin C dose by supplement')+
   theme_bw()
+
 ```
- 
+\begin{center}
+Figure 1. Tooth growth VS vitamin C dose by supplement   
+\end{center}  
+
 ### Tests, CIs, P Values
 A confidence interval of 95% is used for all confidence interval calculations. As there are only 60 observations, T distribution is used for all of the following calculations. To make the report shorter only the confidence interval of the T test is shown. First, it is checked if the vitamin C dosage has a statistically significant effect on the length.  
 ```{r first}
@@ -58,15 +59,18 @@ The result of running a T test on the data shows that there is not a statistical
 statistically significant. However, looking at the boxplot, it seems that there might be a signifacant effect caused by the type of administration (OJ or VC) in lower doses of vitamin C. So let's check run the T test for each dosage.
 For vitamin C dosage of 0.5 mgr/day:  
 ```{r third}
-t.test(len ~ supp, paired=FALSE, var.equal=FALSE, data=ToothGrowth[which(ToothGrowth$dose==.5),])[[4]][1:2]
+t.test(len ~ supp, paired=FALSE, var.equal=FALSE,
+       data=ToothGrowth[which(ToothGrowth$dose==.5),])[[4]][1:2]
 ```
 And the P value is `r round(t.test(len ~ supp, paired=FALSE, var.equal=FALSE,data=ToothGrowth[which(ToothGrowth$dose==.5),])[[3]],8)`. For vitamin C dosage of 1 mgr/day:  
 ```{r fourth}
-t.test(len ~ supp, paired=FALSE, var.equal=FALSE, data=ToothGrowth[which(ToothGrowth$dose==1),])[[4]][1:2]
+t.test(len ~ supp, paired=FALSE, var.equal=FALSE,
+       data=ToothGrowth[which(ToothGrowth$dose==1),])[[4]][1:2]
 ```
 And the P value is `r round(t.test(len ~ supp, paired=FALSE, var.equal=FALSE,data=ToothGrowth[which(ToothGrowth$dose==1),])[[3]],8)`.For vitamin C dosage of 2 mgr/day:  
 ```{r fifth}
-t.test(len ~ supp, paired=FALSE, var.equal=FALSE, data=ToothGrowth[which(ToothGrowth$dose==2),])[[4]][1:2]
+t.test(len ~ supp, paired=FALSE, var.equal=FALSE,
+       data=ToothGrowth[which(ToothGrowth$dose==2),])[[4]][1:2]
 ```
 And the P value is `r round(t.test(len ~ supp, paired=FALSE, var.equal=FALSE,data=ToothGrowth[which(ToothGrowth$dose==2),])[[3]],8)`. So after running the T test for each dosage, it can be said that for both doses of 0.5 and 1 mgr/day, the null hypothesis can be rejected. Feeding vitamin C through orange juice is statistically signigicantly more effective than feeding ascorbic acid directly. But in the third case, 2 mgr/day, there is no significant difference between ascorbic acid and orange juice.  
 
