@@ -3,20 +3,23 @@ title: 'Moment of Truth: Does Central Limit Theorem Work on an Exponential Distr
 author: "Ali  Pourkhesalian"
 date: "7 July 2019"
 output:
-  word_document: default
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, include=FALSE}
+options(tinytex.verbose = TRUE)
+```
 ## Overview
 This reports investigates the exponential distribution in R and compares it with the Central Limit Theorem (CLT).
 
-##Simulations
+## Simulations
 The exponential distribution is simulated in R with rexp(n, lambda), where lambda is the rate parameter. The mean of exponential distribution is 1/lambda and the standard deviation is also 1/lambda. In this report, lambda is set to 0.2 for all of the simulations. The CLT is tested on the distribution of averages of 40 exponentials for a thousand simulations.
 
 ```{r simulations}
